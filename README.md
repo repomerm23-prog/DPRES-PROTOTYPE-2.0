@@ -30,6 +30,7 @@ This is a prototype version of DPRES, created to demonstrate the envisioned look
 
 - This prototype is not a fully functional product and is intended for demonstration and feedback purposes only.
 - The design and features are subject to change based on further development and user input.
+- All references to third-party design tools have been replaced with internal design assets and terminology.
 
 ## Contact
 
