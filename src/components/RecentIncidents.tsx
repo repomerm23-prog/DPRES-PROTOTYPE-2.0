@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { ImageWithFallback } from './figma/ImageWithFallback';
+import { ImageWithFallback } from './designAssets/ImageWithFallback';
 import { BookOpen, Users, Shield, AlertTriangle } from 'lucide-react';
 import { useLanguage } from './LanguageContext';
 

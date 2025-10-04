@@ -1,0 +1,6 @@
+{
+  "name": "dpres-prototype",
+  "buildCommand": "npm run build",
+  "outputDirectory": "build",
+  "installCommand": "npm install"
+}
