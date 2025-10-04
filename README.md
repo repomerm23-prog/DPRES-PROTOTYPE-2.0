@@ -1,11 +1,40 @@
+# Disaster Preparedness Platform (DPRES) Prototype
 
-  # Disaster Preparedness Platform Design
+This repository contains the prototype for the Disaster Preparedness Platform (DPRES). 
 
-  This is a code bundle for Disaster Preparedness Platform Design. The original project is available at https://www.figma.com/design/990XJ3UCFf8UMetggF3sl1/Disaster-Preparedness-Platform-Design.
+## Overview
 
-  ## Running the code
+DPRES is designed to enhance disaster preparedness and response through a comprehensive platform that integrates various modules such as emergency alerts, training, incident reporting, and resource management. The platform aims to provide real-time information, communication tools, and analytics to support institutions, emergency responders, and communities in disaster-prone areas.
 
-  Run `npm i` to install the dependencies.
+## Prototype Purpose
 
-  Run `npm run dev` to start the development server.
-  
+This is a prototype version of DPRES, created to demonstrate the envisioned look, feel, and core functionalities of the platform. It serves as a proof of concept to showcase the design, user interface, and basic interactions.
+
+## Features Demonstrated in the Prototype
+
+- Interactive maps highlighting disaster incidents and resources
+- Emergency SOS alert system
+- Training modules for virtual reality disaster preparedness
+- Incident reporting and analytics dashboard
+- User authentication and role-based access
+- Communication tools for alerts and notifications
+
+## How to Use
+
+- Clone the repository
+- Install dependencies using `npm i`
+- Start the development server with `npm run dev`
+- Explore the various modules and features through the user interface
+
+## Notes
+
+- This prototype is not a fully functional product and is intended for demonstration and feedback purposes only.
+- The design and features are subject to change based on further development and user input.
+
+## Contact
+
+For more information or to provide feedback, please contact the development team.
+
+---
+
+This prototype reflects our initial vision for DPRES and how we imagine it would look and function in a real-world setting.
