@@ -2,9 +2,30 @@
   import { defineConfig } from 'vite';
   import react from '@vitejs/plugin-react-swc';
   import path from 'path';
+  import { visualizer } from 'rollup-plugin-visualizer';
+  import viteCompression from 'vite-plugin-compression';
 
   export default defineConfig({
-    plugins: [react()],
+    plugins: [
+      react(),
+      // Gzip compression
+      viteCompression({
+        algorithm: 'gzip',
+        ext: '.gz',
+      }),
+      // Brotli compression (better than gzip)
+      viteCompression({
+        algorithm: 'brotliCompress',
+        ext: '.br',
+      }),
+      // Bundle analyzer (only in build mode)
+      visualizer({
+        open: false,
+        filename: 'dist/stats.html',
+        gzipSize: true,
+        brotliSize: true,
+      }),
+    ],
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
       alias: {
@@ -54,9 +75,41 @@
       target: 'esnext',
       outDir: 'build',
       chunkSizeWarningLimit: 2000,
+      // Manual chunk splitting for better caching
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            // Vendor chunks
+            'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+            'ui-vendor': [
+              '@radix-ui/react-accordion',
+              '@radix-ui/react-alert-dialog',
+              '@radix-ui/react-dialog',
+              '@radix-ui/react-dropdown-menu',
+              '@radix-ui/react-popover',
+              '@radix-ui/react-select',
+              '@radix-ui/react-tabs',
+              '@radix-ui/react-tooltip',
+            ],
+            'chart-vendor': ['recharts'],
+          },
+        },
+      },
+      // Optimize dependencies
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: true, // Remove console.logs in production
+          drop_debugger: true,
+        },
+      },
     },
     server: {
       port: 3000,
       open: true,
+    },
+    // Optimize dependencies
+    optimizeDeps: {
+      include: ['react', 'react-dom', 'react-router-dom'],
     },
   });
