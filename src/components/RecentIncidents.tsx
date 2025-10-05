@@ -196,9 +196,9 @@ export function RecentIncidents() {
             <h3 className="text-2xl font-bold mb-4">{t('landing.disasters.buildPreparedness')}</h3>
             <p className="text-lg mb-6 opacity-90">{t('landing.disasters.joinInstitutions')}</p>
             <Link to="/modules" className="inline-block">
-              <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 text-lg font-semibold">
-                <BookOpen className="mr-3 h-5 w-5" />
-                {t('landing.disasters.startTraining')}
+              <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 px-4 sm:px-8 py-3 sm:py-4 text-sm sm:text-base md:text-lg font-semibold flex items-center justify-center text-center">
+                <BookOpen className="mr-2 sm:mr-3 h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
+                <span className="whitespace-normal leading-tight">{t('landing.disasters.startTraining')}</span>
               </Button>
             </Link>
           </div>
