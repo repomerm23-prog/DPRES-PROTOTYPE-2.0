@@ -13,10 +13,10 @@ import { VRTrainingPage } from "./components/VRTrainingPage";
 import { AdminDashboard } from "./components/AdminDashboard";
 import { DesktopOnlyScreen } from "./components/DesktopOnlyScreen";
 import { Navigation } from "./components/Navigation";
+import { WelcomeAnimation } from "./components/WelcomeAnimation";
 import { LanguageProvider, useLanguage } from "./components/LanguageContext";
 import { AlertProvider } from "./components/shared/AlertContext";
 import { CommunicationProvider } from "./components/shared/CommunicationContext";
-import { SecurityProvider } from "./components/SecurityProvider";
 import { useIsMobile } from "./components/hooks/useIsMobile";
 
 interface UserData {
@@ -43,6 +43,7 @@ function AppContent() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
   const [isFirstLogin, setIsFirstLogin] = useState(true);
+  const [showWelcomeAnimation, setShowWelcomeAnimation] = useState(false);
   
   // Mobile detection hook
   const isMobile = useIsMobile(1024);
@@ -50,12 +51,19 @@ function AppContent() {
   // Language context to reset on logout
   const { setLanguage } = useLanguage();
 
+  // Memoize animation complete handler to prevent infinite loops
+  const handleAnimationComplete = React.useCallback(() => {
+    setShowWelcomeAnimation(false);
+  }, []);
+
   const handleLogin = (data: UserData) => {
     setUserData(data);
     setIsLoggedIn(true);
     setIsAdminLoggedIn(false);
     // Set first login to true on initial login, false on subsequent navigation
     setIsFirstLogin(true);
+    // Show welcome animation on login
+    setShowWelcomeAnimation(true);
   };
 
   const handleAdminLogin = (data: AdminData) => {
@@ -86,6 +94,7 @@ function AppContent() {
     setIsLoggedIn(false);
     setIsAdminLoggedIn(false);
     setIsFirstLogin(true); // Reset for next login
+    setShowWelcomeAnimation(false); // Reset animation state
     // Force light mode on logout
     document.documentElement.classList.remove("dark");
     // Reset language to English
@@ -111,6 +120,12 @@ function AppContent() {
               <LoginPage
                 onLogin={handleLogin}
                 onAdminLogin={handleAdminLogin}
+              />
+            ) : showWelcomeAnimation && userData ? (
+              <WelcomeAnimation
+                studentName={userData.studentName}
+                schoolName={userData.schoolName}
+                onComplete={handleAnimationComplete}
               />
             ) : (
               <div className="min-h-screen bg-background text-foreground">
@@ -183,10 +198,8 @@ function AppContent() {
 
 export default function App() {
   return (
-    <SecurityProvider>
-      <LanguageProvider>
-        <AppContent />
-      </LanguageProvider>
-    </SecurityProvider>
+    <LanguageProvider>
+      <AppContent />
+    </LanguageProvider>
   );
 }
