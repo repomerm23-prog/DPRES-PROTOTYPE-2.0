@@ -10,7 +10,6 @@ import {
   AlertTriangle
 } from 'lucide-react';
 import { useLanguage } from './LanguageContext';
-import { RecentIncidents } from './RecentIncidents';
 
 interface UserData {
   schoolName: string;

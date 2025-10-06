@@ -1,129 +1,205 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { Badge } from './ui/badge';
-import { AlertCircle, TrendingUp, MapPin, Calendar } from 'lucide-react';
-
-interface Incident {
-  id: number;
-  title: string;
-  location: string;
-  date: string;
-  severity: 'high' | 'medium' | 'low';
-  description: string;
-}
+import { Link } from 'react-router-dom';
+import { Button } from './ui/button';
+import { Card, CardContent } from './ui/card';
+import { ImageWithFallback } from './designAssets/ImageWithFallback';
+import { BookOpen, Users, Shield, AlertTriangle } from 'lucide-react';
+import { useLanguage } from './LanguageContext';
 
 export function RecentIncidents() {
-
-  const incidents: Incident[] = [
-    {
-      id: 1,
-      title: 'Earthquake Preparedness - Chennai Case Study',
-      location: 'Chennai, Tamil Nadu',
-      date: 'September 2025',
-      severity: 'high',
-      description: 'Successful evacuation drill conducted across 50+ schools, reaching 15,000 students.'
-    },
-    {
-      id: 2,
-      title: 'Flood Response Training - Kerala',
-      location: 'Kochi, Kerala',
-      date: 'August 2025',
-      severity: 'high',
-      description: 'Community-wide flood preparedness training with VR simulations completed.'
-    },
-    {
-      id: 3,
-      title: 'Fire Safety Workshop - Mumbai',
-      location: 'Mumbai, Maharashtra',
-      date: 'July 2025',
-      severity: 'medium',
-      description: 'Inter-school fire safety competition and emergency response training.'
-    },
-    {
-      id: 4,
-      title: 'Cyclone Preparedness - Odisha',
-      location: 'Bhubaneswar, Odisha',
-      date: 'June 2025',
-      severity: 'high',
-      description: 'Pre-monsoon cyclone preparedness initiative across coastal educational institutions.'
-    }
-  ];
-
-  const getSeverityColor = (severity: string) => {
-    switch (severity) {
-      case 'high':
-        return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
-      case 'medium':
-        return 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200';
-      case 'low':
-        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
-      default:
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200';
-    }
-  };
+  const { t } = useLanguage();
 
   return (
-    <section className="py-12 sm:py-16 lg:py-20 bg-white dark:bg-gray-800">
+    <section className="py-12 sm:py-16 lg:py-20 bg-gray-50 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center mb-8 sm:mb-12">
-          <div className="flex items-center justify-center mb-3 sm:mb-4">
-            <AlertCircle className="h-6 w-6 sm:h-8 sm:w-8 text-red-600 mr-2" />
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white">
-              Recent Initiatives & Case Studies
-            </h2>
-          </div>
-          <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Explore successful disaster preparedness programs and learn from real-world implementations across India
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-6 break-words">
+            {t('landing.disasters.title')}
+          </h2>
+          <p className="text-xl sm:text-2xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto break-words">
+            {t('landing.disasters.subtitle')}
           </p>
         </div>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12">
+          {/* Cyclone Fani 2019 - Odisha */}
+          <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 dark:bg-gray-800 dark:border-gray-700 bg-white flex flex-col h-full">
+            <div className="aspect-[16/10] relative">
+              <ImageWithFallback 
+                src="https://images.unsplash.com/photo-1723551909082-866e0e48afb4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjeWNsb25lJTIwZGlzYXN0ZXIlMjBmbG9vZGluZyUyMGRhbWFnZXxlbnwxfHx8fDE3NTg4NjkyMzJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                alt="Cyclone Fani impact on schools"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute top-4 left-4 bg-red-600 text-white px-4 py-2 rounded-lg font-semibold shadow-lg">
+                <AlertTriangle className="inline w-4 h-4 mr-2" />
+                {t('landing.disasters.cycloneEmergency')}
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+                <h3 className="text-2xl font-bold text-white mb-2">{t('landing.disasters.cycloneFani')}</h3>
+                <p className="text-gray-200">{t('landing.disasters.cycloneFaniDesc')}</p>
+              </div>
+            </div>
+            <CardContent className="p-6 space-y-4 flex-1 flex flex-col">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg text-center">
+                  <Users className="w-6 h-6 text-red-600 dark:text-red-400 mx-auto mb-2" />
+                  <div className="text-2xl font-bold text-red-600 dark:text-red-400">2,847</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">{t('landing.disasters.studentsAffected')}</div>
+                </div>
+                <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg text-center">
+                  <Shield className="w-6 h-6 text-green-600 dark:text-green-400 mx-auto mb-2" />
+                  <div className="text-2xl font-bold text-green-600 dark:text-green-400">2,785</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">{t('landing.disasters.studentsEvacuated')}</div>
+                </div>
+              </div>
+              <p className="text-gray-600 dark:text-gray-300 flex-1">
+                {t('landing.disasters.cycloneFaniText')}
+              </p>
+              <a href="https://en.wikipedia.org/wiki/Cyclone_Fani" target="_blank" rel="noopener noreferrer" className="w-full">
+                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                  <BookOpen className="w-4 h-4 mr-2" />
+                  {t('landing.disasters.learnMore')}
+                </Button>
+              </a>
+            </CardContent>
+          </Card>
 
-        {/* Incidents Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
-          {incidents.map((incident) => (
-            <Card key={incident.id} className="hover:shadow-lg transition-shadow duration-300 dark:bg-gray-900 dark:border-gray-700">
-              <CardHeader>
-                <div className="flex items-start justify-between mb-2">
-                  <CardTitle className="text-base sm:text-lg break-words flex-1 dark:text-white">
-                    {incident.title}
-                  </CardTitle>
-                  <Badge className={`${getSeverityColor(incident.severity)} ml-2 shrink-0`}>
-                    {incident.severity.toUpperCase()}
-                  </Badge>
+          {/* Punjab Floods 2023 */}
+          <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 dark:bg-gray-800 dark:border-gray-700 bg-white flex flex-col h-full">
+            <div className="aspect-[16/10] relative">
+              <ImageWithFallback 
+                src="https://images.unsplash.com/photo-1660458074355-89e4281dd62d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpbmRpYSUyMGZsb29kJTIwbW9uc29vbiUyMGRpc2FzdGVyfGVufDF8fHx8MTc1ODg2OTI0MXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                alt="Punjab floods affecting schools"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute top-4 left-4 bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold shadow-lg">
+                <AlertTriangle className="inline w-4 h-4 mr-2" />
+                {t('landing.disasters.floodEmergency')}
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+                <h3 className="text-2xl font-bold text-white mb-2">{t('landing.disasters.punjabFloods')}</h3>
+                <p className="text-gray-200">{t('landing.disasters.punjabFloodsDesc')}</p>
+              </div>
+            </div>
+            <CardContent className="p-6 space-y-4 flex-1 flex flex-col">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg text-center">
+                  <Users className="w-6 h-6 text-blue-600 dark:text-blue-400 mx-auto mb-2" />
+                  <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">1,234</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">{t('landing.disasters.studentsAffected')}</div>
                 </div>
-                <div className="space-y-2">
-                  <div className="flex items-center text-xs sm:text-sm text-gray-600 dark:text-gray-400">
-                    <MapPin className="h-4 w-4 mr-1 shrink-0" />
-                    <span className="break-words">{incident.location}</span>
-                  </div>
-                  <div className="flex items-center text-xs sm:text-sm text-gray-600 dark:text-gray-400">
-                    <Calendar className="h-4 w-4 mr-1 shrink-0" />
-                    <span>{incident.date}</span>
-                  </div>
+                <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg text-center">
+                  <Shield className="w-6 h-6 text-green-600 dark:text-green-400 mx-auto mb-2" />
+                  <div className="text-2xl font-bold text-green-600 dark:text-green-400">1,220</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">{t('landing.disasters.studentsRelocated')}</div>
                 </div>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-sm sm:text-base break-words dark:text-gray-300">
-                  {incident.description}
-                </CardDescription>
-              </CardContent>
-            </Card>
-          ))}
+              </div>
+              <p className="text-gray-600 dark:text-gray-300 flex-1">
+                {t('landing.disasters.punjabFloodsText')}
+              </p>
+              <a href="https://en.wikipedia.org/wiki/2023_North_India_floods" target="_blank" rel="noopener noreferrer" className="w-full">
+                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                  <BookOpen className="w-4 h-4 mr-2" />
+                  {t('landing.disasters.learnMore')}
+                </Button>
+              </a>
+            </CardContent>
+          </Card>
+
+          {/* Gujarat Earthquake 2001 */}
+          <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 dark:bg-gray-800 dark:border-gray-700 bg-white flex flex-col h-full">
+            <div className="aspect-[16/10] relative">
+              <ImageWithFallback 
+                src="https://images.unsplash.com/photo-1582617012849-36e9c476245a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlYXJ0aHF1YWtlJTIwZGlzYXN0ZXIlMjByZXNjdWV8ZW58MXx8fHwxNzU4ODY5MjM1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                alt="Gujarat earthquake school rescue"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute top-4 left-4 bg-yellow-600 text-white px-4 py-2 rounded-lg font-semibold shadow-lg">
+                <AlertTriangle className="inline w-4 h-4 mr-2" />
+                {t('landing.disasters.majorEarthquake')}
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+                <h3 className="text-2xl font-bold text-white mb-2">{t('landing.disasters.gujarateEarthquake')}</h3>
+                <p className="text-gray-200">{t('landing.disasters.gujarateEarthquakeDesc')}</p>
+              </div>
+            </div>
+            <CardContent className="p-6 space-y-4 flex-1 flex flex-col">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg text-center">
+                  <Users className="w-6 h-6 text-yellow-600 dark:text-yellow-400 mx-auto mb-2" />
+                  <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">5,986</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">{t('landing.disasters.studentsAffected')}</div>
+                </div>
+                <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg text-center">
+                  <Shield className="w-6 h-6 text-green-600 dark:text-green-400 mx-auto mb-2" />
+                  <div className="text-2xl font-bold text-green-600 dark:text-green-400">4,567</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">{t('landing.disasters.studentsRescued')}</div>
+                </div>
+              </div>
+              <p className="text-gray-600 dark:text-gray-300 flex-1">
+                {t('landing.disasters.gujarateEarthquakeText')}
+              </p>
+              <a href="https://en.wikipedia.org/wiki/2001_Gujarat_earthquake" target="_blank" rel="noopener noreferrer" className="w-full">
+                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                  <BookOpen className="w-4 h-4 mr-2" />
+                  {t('landing.disasters.learnMore')}
+                </Button>
+              </a>
+            </CardContent>
+          </Card>
+
+          {/* Indian Ocean Tsunami 2004 */}
+          <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 dark:bg-gray-800 dark:border-gray-700 bg-white flex flex-col h-full">
+            <div className="aspect-[16/10] relative">
+              <ImageWithFallback 
+                src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0c3VuYW1pJTIwZGlzYXN0ZXIlMjBjb2FzdGFsJTIwZGFtYWdlfGVufDF8fHx8MTc1ODg4NDQ2Mnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                alt="Tamil Nadu tsunami 2004 coastal flooding damage"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute top-4 left-4 bg-purple-600 text-white px-4 py-2 rounded-lg font-semibold shadow-lg">
+                <AlertTriangle className="inline w-4 h-4 mr-2" />
+                {t('landing.disasters.tsunamiEmergency')}
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+                <h3 className="text-2xl font-bold text-white mb-2">{t('landing.disasters.indianOceanTsunami')}</h3>
+                <p className="text-gray-200">{t('landing.disasters.indianOceanTsunamiDesc')}</p>
+              </div>
+            </div>
+            <CardContent className="p-6 space-y-4 flex-1 flex flex-col">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg text-center">
+                  <Users className="w-6 h-6 text-purple-600 dark:text-purple-400 mx-auto mb-2" />
+                  <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">3,456</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">{t('landing.disasters.studentsAffected')}</div>
+                </div>
+                <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg text-center">
+                  <Shield className="w-6 h-6 text-green-600 dark:text-green-400 mx-auto mb-2" />
+                  <div className="text-2xl font-bold text-green-600 dark:text-green-400">2,890</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">{t('landing.disasters.studentsEvacuated')}</div>
+                </div>
+              </div>
+              <p className="text-gray-600 dark:text-gray-300 flex-1">
+                {t('landing.disasters.indianOceanTsunamiText')}
+              </p>
+              <a href="https://en.wikipedia.org/wiki/2004_Indian_Ocean_earthquake_and_tsunami" target="_blank" rel="noopener noreferrer" className="w-full">
+                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                  <BookOpen className="w-4 h-4 mr-2" />
+                  {t('landing.disasters.learnMore')}
+                </Button>
+              </a>
+            </CardContent>
+          </Card>
         </div>
 
-        {/* Success Metrics */}
-        <div className="mt-8 sm:mt-12 p-4 sm:p-6 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
-          <div className="flex items-start">
-            <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6 text-green-600 dark:text-green-400 mr-3 mt-1 shrink-0" />
-            <div>
-              <h3 className="text-base sm:text-lg font-semibold text-green-900 dark:text-green-100 mb-2">
-                Impact Metrics
-              </h3>
-              <p className="text-sm sm:text-base text-green-800 dark:text-green-200">
-                These initiatives have collectively trained over <strong>60,000+ students</strong> and 
-                <strong> 1,500+ educators</strong> across India, significantly improving institutional 
-                disaster preparedness and response capabilities.
-              </p>
-            </div>
+        <div className="text-center mt-12 sm:mt-16">
+          <div className="bg-gradient-to-r from-blue-600 to-orange-600 rounded-2xl p-8 text-white">
+            <h3 className="text-2xl font-bold mb-4">{t('landing.disasters.buildPreparedness')}</h3>
+            <p className="text-lg mb-6 opacity-90">{t('landing.disasters.joinInstitutions')}</p>
+            <Link to="/modules" className="inline-block">
+              <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 px-4 sm:px-8 py-3 sm:py-4 text-sm sm:text-base md:text-lg font-semibold flex items-center justify-center text-center">
+                <BookOpen className="mr-2 sm:mr-3 h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
+                <span className="whitespace-normal leading-tight">{t('landing.disasters.startTraining')}</span>
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
