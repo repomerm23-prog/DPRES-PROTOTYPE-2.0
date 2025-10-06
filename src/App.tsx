@@ -1,24 +1,22 @@
-import React, { useState, lazy, Suspense } from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
 } from "react-router-dom";
+import { LoginPage } from "./components/LoginPage";
+import { LandingPage } from "./components/LandingPage";
+import { Dashboard } from "./components/Dashboard";
+import { ModulesPage } from "./components/ModulesPage";
+import { VRTrainingPage } from "./components/VRTrainingPage";
+import { AdminDashboard } from "./components/AdminDashboard";
+import { DesktopOnlyScreen } from "./components/DesktopOnlyScreen";
 import { Navigation } from "./components/Navigation";
-import { LanguageProvider } from "./components/LanguageContext";
+import { LanguageProvider, useLanguage } from "./components/LanguageContext";
 import { AlertProvider } from "./components/shared/AlertContext";
 import { CommunicationProvider } from "./components/shared/CommunicationContext";
 import { useIsMobile } from "./components/hooks/useIsMobile";
-
-// Lazy load components for better performance
-const LoginPage = lazy(() => import("./components/LoginPage").then(m => ({ default: m.LoginPage })));
-const LandingPage = lazy(() => import("./components/LandingPage").then(m => ({ default: m.LandingPage })));
-const Dashboard = lazy(() => import("./components/Dashboard").then(m => ({ default: m.Dashboard })));
-const ModulesPage = lazy(() => import("./components/ModulesPage").then(m => ({ default: m.ModulesPage })));
-const VRTrainingPage = lazy(() => import("./components/VRTrainingPage").then(m => ({ default: m.VRTrainingPage })));
-const AdminDashboard = lazy(() => import("./components/AdminDashboard").then(m => ({ default: m.AdminDashboard })));
-const DesktopOnlyScreen = lazy(() => import("./components/DesktopOnlyScreen").then(m => ({ default: m.DesktopOnlyScreen })));
 
 interface UserData {
   schoolName: string;
@@ -34,7 +32,7 @@ interface AdminData {
   displayName?: string;
 }
 
-export default function App() {
+function AppContent() {
   const [userData, setUserData] = useState<UserData | null>(
     null,
   );
@@ -47,6 +45,9 @@ export default function App() {
   
   // Mobile detection hook
   const isMobile = useIsMobile(1024);
+  
+  // Language context to reset on logout
+  const { setLanguage } = useLanguage();
 
   const handleLogin = (data: UserData) => {
     setUserData(data);
@@ -74,6 +75,8 @@ export default function App() {
     setIsFirstLogin(true);
     // Force light mode on logout
     document.documentElement.classList.remove("dark");
+    // Reset language to English
+    setLanguage('en');
   };
 
   const handleLogout = () => {
@@ -84,6 +87,8 @@ export default function App() {
     setIsFirstLogin(true); // Reset for next login
     // Force light mode on logout
     document.documentElement.classList.remove("dark");
+    // Reset language to English
+    setLanguage('en');
   };
 
   // Track navigation to mark subsequent visits as "Welcome back"
@@ -98,92 +103,87 @@ export default function App() {
   }, [isLoggedIn, isFirstLogin]);
 
   return (
-    <LanguageProvider>
-      <AlertProvider>
-        <CommunicationProvider>
-          <Router>
-            <Suspense fallback={
-              <div className="flex items-center justify-center min-h-screen bg-background">
-                <div className="text-center">
-                  <div className="animate-pulse mb-4">
-                    <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
-                  </div>
-                  <p className="text-muted-foreground">Loading...</p>
-                </div>
-              </div>
-            }>
-              {!isLoggedIn && !isAdminLoggedIn ? (
-                <LoginPage
-                  onLogin={handleLogin}
-                  onAdminLogin={handleAdminLogin}
-                />
-              ) : (
-                <div className="min-h-screen bg-background text-foreground">
-                  {/* Show Navigation only for regular users, not admin */}
-                  {isLoggedIn && !isAdminLoggedIn && (
-                    <Navigation
-                      userData={userData}
-                      onLogout={handleLogout}
-                      isFirstLogin={isFirstLogin}
-                    />
-                  )}
+    <AlertProvider>
+      <CommunicationProvider>
+        <Router>
+            {!isLoggedIn && !isAdminLoggedIn ? (
+              <LoginPage
+                onLogin={handleLogin}
+                onAdminLogin={handleAdminLogin}
+              />
+            ) : (
+              <div className="min-h-screen bg-background text-foreground">
+                {/* Show Navigation only for regular users, not admin */}
+                {isLoggedIn && !isAdminLoggedIn && (
+                  <Navigation
+                    userData={userData}
+                    onLogout={handleLogout}
+                    isFirstLogin={isFirstLogin}
+                  />
+                )}
 
-                  {/* Admin Dashboard - Direct access for admin users (Desktop only) */}
-                  {isAdminLoggedIn ? (
-                    isMobile ? (
-                      <DesktopOnlyScreen onBack={handleAdminLogout} />
-                    ) : (
-                      <AdminDashboard
-                        adminData={adminData}
-                        onLogout={handleLogout}
-                      />
-                    )
+                {/* Admin Dashboard - Direct access for admin users (Desktop only) */}
+                {isAdminLoggedIn ? (
+                  isMobile ? (
+                    <DesktopOnlyScreen onBack={handleAdminLogout} />
                   ) : (
-                    /* Regular user routes */
-                    <Routes>
-                      <Route
-                        path="/"
-                        element={
-                          <LandingPage userData={userData} />
-                        }
-                      />
-                      <Route
-                        path="/dashboard"
-                        element={
-                          <Dashboard userData={userData} />
-                        }
-                      />
-                      <Route
-                        path="/modules"
-                        element={
-                          <ModulesPage userData={userData} />
-                        }
-                      />
-                      <Route
-                        path="/vr-training"
-                        element={<VRTrainingPage />}
-                      />
-                      {/* Block admin access for regular users */}
-                      <Route
-                        path="/admin"
-                        element={<Navigate to="/" replace />}
-                      />
-                      <Route
-                        path="/preview_page.html"
-                        element={<Navigate to="/" replace />}
-                      />
-                      <Route
-                        path="*"
-                        element={<Navigate to="/" replace />}
-                      />
-                    </Routes>
-                  )}
-                </div>
-              )}
-            </Suspense>
+                    <AdminDashboard
+                      adminData={adminData}
+                      onLogout={handleLogout}
+                    />
+                  )
+                ) : (
+                  /* Regular user routes */
+                  <Routes>
+                    <Route
+                      path="/"
+                      element={
+                        <LandingPage userData={userData} />
+                      }
+                    />
+                    <Route
+                      path="/dashboard"
+                      element={
+                        <Dashboard userData={userData} />
+                      }
+                    />
+                    <Route
+                      path="/modules"
+                      element={
+                        <ModulesPage userData={userData} />
+                      }
+                    />
+                    <Route
+                      path="/vr-training"
+                      element={<VRTrainingPage />}
+                    />
+                    {/* Block admin access for regular users */}
+                    <Route
+                      path="/admin"
+                      element={<Navigate to="/" replace />}
+                    />
+                    <Route
+                      path="/preview_page.html"
+                      element={<Navigate to="/" replace />}
+                    />
+                    <Route
+                      path="*"
+                      element={<Navigate to="/" replace />}
+                    />
+                  </Routes>
+                )}
+              </div>
+            )}
           </Router>
         </CommunicationProvider>
       </AlertProvider>
+  );
+}
+
+export default function App() {
+  return (
+    <LanguageProvider>
+      <AppContent />
     </LanguageProvider>
   );
 }
