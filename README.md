@@ -1,3 +1,6 @@
+
+<img width="1920" height="1080" alt="Untitled design" src="https://github.com/user-attachments/assets/2dac28ee-c84e-4b7f-a77e-b0e3214bfcab" />
+
 # Disaster Preparedness Platform (DPRES) Prototype
 
 This repository contains the prototype for the Disaster Preparedness Platform (DPRES). 
@@ -18,7 +21,7 @@ This is a prototype version of DPRES, created to demonstrate the envisioned look
 - Incident reporting and analytics dashboard
 - User authentication and role-based access
 - Communication tools for alerts and notifications
-
+<img width="1920" height="1080" alt="nbv " src="https://github.com/user-attachments/assets/b8e8316d-29dd-4598-a5d8-83d57a2c3a1c" />
 ## How to Use
 
 - Clone the repository
