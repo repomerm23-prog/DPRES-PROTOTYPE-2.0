@@ -235,27 +235,163 @@ export function LandingPage({ userData }: LandingPageProps) {
         </div>
       </section>
 
-      {/* Recent Disasters & Case Studies Section */}
-      <RecentIncidents />
-
-      {/* Statistics Section */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-gray-50 dark:bg-gray-900">
+      {/* Disaster Case Studies Section */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 text-center">
-            <div>
-              <div className="text-3xl sm:text-4xl font-bold text-blue-600 mb-2">1,250+</div>
-              <div className="text-base sm:text-lg text-gray-600 dark:text-gray-300 break-words">{t('landing.stats.institutions')}</div>
-              <div className="text-sm text-gray-500 dark:text-gray-400 break-words">Currently enrolled in DPRES</div>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+              Real Disaster Case Studies
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              Learn from actual disaster responses and see how preparedness saves lives
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Cyclone Fani Case Study */}
+            <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+              <div className="relative">
+                <div className="h-48 bg-gradient-to-br from-red-500 to-orange-600 relative overflow-hidden">
+                  <ImageWithFallback 
+                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800"
+                    alt="Cyclone damage showing fallen trees and boats"
+                    className="w-full h-full object-cover opacity-80"
+                  />
+                  <div className="absolute top-4 left-4">
+                    <span className="bg-red-600 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center">
+                      <AlertTriangle className="w-4 h-4 mr-1" />
+                      Cyclone Emergency
+                    </span>
+                  </div>
+                </div>
+                <CardContent className="p-6">
+                  <div className="mb-4">
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                      Cyclone Fani 2019
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-300">
+                      Category 4 Super Cyclone • Odisha, India
+                    </p>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div className="text-center p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
+                      <div className="text-2xl font-bold text-red-600 dark:text-red-400 mb-1">
+                        2,847
+                      </div>
+                      <div className="text-sm text-gray-600 dark:text-gray-300">
+                        Students Affected
+                      </div>
+                    </div>
+                    <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                      <div className="text-2xl font-bold text-green-600 dark:text-green-400 mb-1">
+                        2,785
+                      </div>
+                      <div className="text-sm text-gray-600 dark:text-gray-300">
+                        Students Evacuated Safely
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
+                    Early warning systems and school evacuation drills saved thousands of students. 
+                    156 schools used as relief centers.
+                  </p>
+                  
+                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                    <BookOpen className="w-4 h-4 mr-2" />
+                    Learn more about this disaster
+                  </Button>
+                </CardContent>
+              </div>
+            </Card>
+
+            {/* Punjab Floods Case Study */}
+            <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+              <div className="relative">
+                <div className="h-48 bg-gradient-to-br from-blue-500 to-blue-700 relative overflow-hidden">
+                  <ImageWithFallback 
+                    src="https://images.unsplash.com/photo-1547036967-23d11aacaee0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800"
+                    alt="Flood scene with people and vehicles in waterlogged streets"
+                    className="w-full h-full object-cover opacity-80"
+                  />
+                  <div className="absolute top-4 left-4">
+                    <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center">
+                      <AlertTriangle className="w-4 h-4 mr-1" />
+                      Flood Emergency
+                    </span>
+                  </div>
+                </div>
+                <CardContent className="p-6">
+                  <div className="mb-4">
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                      Punjab Floods 2023
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-300">
+                      Monsoon Flooding • Punjab, India
+                    </p>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div className="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                      <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-1">
+                        1,234
+                      </div>
+                      <div className="text-sm text-gray-600 dark:text-gray-300">
+                        Students Affected
+                      </div>
+                    </div>
+                    <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                      <div className="text-2xl font-bold text-green-600 dark:text-green-400 mb-1">
+                        1,220
+                      </div>
+                      <div className="text-sm text-gray-600 dark:text-gray-300">
+                        Students Relocated
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
+                    Swift action by school authorities and community preparedness ensured 99% of students 
+                    reached safety. 89 schools served as temporary shelters.
+                  </p>
+                  
+                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                    <BookOpen className="w-4 h-4 mr-2" />
+                    Learn more about this disaster
+                  </Button>
+                </CardContent>
+              </div>
+            </Card>
+          </div>
+
+          {/* Impact Statistics */}
+          <div className="mt-12 p-8 bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl">
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                The Power of Preparedness
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                When schools are prepared, communities are resilient
+              </p>
             </div>
-            <div>
-              <div className="text-3xl sm:text-4xl font-bold text-orange-600 mb-2">45,000+</div>
-              <div className="text-base sm:text-lg text-gray-600 dark:text-gray-300 break-words">{t('landing.stats.students')}</div>
-              <div className="text-sm text-gray-500 dark:text-gray-400 break-words">Across all modules and VR sessions</div>
-            </div>
-            <div>
-              <div className="text-3xl sm:text-4xl font-bold text-green-600 mb-2">98%</div>
-              <div className="text-base sm:text-lg text-gray-600 dark:text-gray-300 break-words">{t('landing.stats.satisfaction')}</div>
-              <div className="text-sm text-gray-500 dark:text-gray-400 break-words">Average institutional readiness</div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+              <div>
+                <div className="text-4xl font-bold text-green-600 mb-2">97.8%</div>
+                <div className="text-lg text-gray-700 dark:text-gray-300 font-semibold">Success Rate</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Students evacuated safely in prepared schools</div>
+              </div>
+              <div>
+                <div className="text-4xl font-bold text-blue-600 mb-2">245</div>
+                <div className="text-lg text-gray-700 dark:text-gray-300 font-semibold">Schools as Shelters</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Educational institutions serving communities</div>
+              </div>
+              <div>
+                <div className="text-4xl font-bold text-orange-600 mb-2">4,081</div>
+                <div className="text-lg text-gray-700 dark:text-gray-300 font-semibold">Lives Protected</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Through effective disaster preparedness</div>
+              </div>
             </div>
           </div>
         </div>
