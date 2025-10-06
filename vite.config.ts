@@ -4,10 +4,85 @@
   import path from 'path';
   import { visualizer } from 'rollup-plugin-visualizer';
   import viteCompression from 'vite-plugin-compression';
+  import { VitePWA } from 'vite-plugin-pwa';
 
   export default defineConfig({
     plugins: [
       react(),
+      // PWA Plugin
+      VitePWA({
+        registerType: 'autoUpdate',
+        includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
+        manifest: {
+          name: 'DPRES - Disaster Preparedness & Response Education System',
+          short_name: 'DPRES',
+          description: 'Comprehensive disaster preparedness platform for educational institutions with emergency alerts, training modules, and VR simulations.',
+          theme_color: '#dc2626',
+          background_color: '#ffffff',
+          display: 'standalone',
+          orientation: 'portrait',
+          scope: '/',
+          start_url: '/',
+          icons: [
+            {
+              src: 'icons/icon-192x192.png',
+              sizes: '192x192',
+              type: 'image/png'
+            },
+            {
+              src: 'icons/icon-512x512.png',
+              sizes: '512x512',
+              type: 'image/png'
+            }
+          ],
+          shortcuts: [
+            {
+              name: 'Emergency SOS',
+              short_name: 'SOS',
+              description: 'Quick access to emergency SOS feature',
+              url: '/?shortcut=sos',
+              icons: [{ src: 'icons/icon-96x96.png', sizes: '96x96' }]
+            },
+            {
+              name: 'Dashboard',
+              short_name: 'Dashboard',
+              description: 'View your training dashboard',
+              url: '/dashboard',
+              icons: [{ src: 'icons/icon-96x96.png', sizes: '96x96' }]
+            }
+          ]
+        },
+        workbox: {
+          globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+          runtimeCaching: [
+            {
+              urlPattern: /^https:\/\/api\.*/i,
+              handler: 'NetworkFirst',
+              options: {
+                cacheName: 'api-cache',
+                expiration: {
+                  maxEntries: 100,
+                  maxAgeSeconds: 60 * 60 * 24 // 24 hours
+                }
+              }
+            },
+            {
+              urlPattern: /\.(?:png|jpg|jpeg|svg|gif)$/,
+              handler: 'CacheFirst',
+              options: {
+                cacheName: 'images-cache',
+                expiration: {
+                  maxEntries: 50,
+                  maxAgeSeconds: 60 * 60 * 24 * 7 // 7 days
+                }
+              }
+            }
+          ]
+        },
+        devOptions: {
+          enabled: true
+        }
+      }),
       // Gzip compression
       viteCompression({
         algorithm: 'gzip',

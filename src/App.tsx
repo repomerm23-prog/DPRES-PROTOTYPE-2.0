@@ -16,6 +16,7 @@ import { Navigation } from "./components/Navigation";
 import { LanguageProvider, useLanguage } from "./components/LanguageContext";
 import { AlertProvider } from "./components/shared/AlertContext";
 import { CommunicationProvider } from "./components/shared/CommunicationContext";
+import { SecurityProvider } from "./components/SecurityProvider";
 import { useIsMobile } from "./components/hooks/useIsMobile";
 
 interface UserData {
@@ -182,8 +183,10 @@ function AppContent() {
 
 export default function App() {
   return (
-    <LanguageProvider>
-      <AppContent />
-    </LanguageProvider>
+    <SecurityProvider>
+      <LanguageProvider>
+        <AppContent />
+      </LanguageProvider>
+    </SecurityProvider>
   );
 }
