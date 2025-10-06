@@ -1,4 +1,3 @@
-import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { 
@@ -7,13 +6,11 @@ import {
   Users,
   Target,
   AlertTriangle,
-  MapIcon,
   Bell,
   Activity
 } from 'lucide-react';
 import { allInstitutions } from '../shared/institutionsData';
 import { useAlerts } from '../shared/AlertContext';
-import { IndiaMap } from '../IndiaMap';
 
 interface DashboardOverviewProps {
   overviewStats: {
@@ -27,8 +24,7 @@ interface DashboardOverviewProps {
 }
 
 export function DashboardOverview({ overviewStats, onNavigation }: DashboardOverviewProps) {
-  const { alerts, getActiveAlerts } = useAlerts();
-  const activeAlerts = getActiveAlerts();
+  const { alerts } = useAlerts();
   
   // Filter SOS alerts from enrolled institutions only
   const sosAlerts = alerts.filter(alert => 

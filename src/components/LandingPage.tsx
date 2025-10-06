@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
@@ -8,10 +7,7 @@ import {
   LayoutDashboard, 
   BookOpen, 
   Headphones, 
-  AlertTriangle,
-  Users,
-  Target,
-  Globe
+  AlertTriangle
 } from 'lucide-react';
 import { useLanguage } from './LanguageContext';
 import { RecentIncidents } from './RecentIncidents';

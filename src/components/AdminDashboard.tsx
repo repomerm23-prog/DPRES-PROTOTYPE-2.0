@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   Shield, 
   BarChart3,
@@ -8,7 +8,6 @@ import {
   Settings,
   LogOut,
   Menu,
-  Mail,
   Activity,
   Award,
   MessageSquare,

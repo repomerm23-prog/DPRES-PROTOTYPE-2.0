@@ -13,11 +13,9 @@ import {
   Globe,
   AlertTriangle,
   LogOut,
-  User,
   Moon,
   Sun,
   Menu,
-  X,
   CheckCircle
 } from 'lucide-react';
 import {
@@ -42,7 +40,7 @@ interface NavigationProps {
   isFirstLogin?: boolean;
 }
 
-export function Navigation({ userData, onLogout, isFirstLogin = false }: NavigationProps) {
+export function Navigation({ onLogout }: NavigationProps) {
   const location = useLocation();
   const [darkMode, setDarkMode] = useState(() => {
     // Check if dark mode was previously enabled

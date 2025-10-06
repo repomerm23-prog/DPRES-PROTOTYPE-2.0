@@ -25,8 +25,7 @@ import {
   Info,
   BookOpen,
   Award,
-  Target,
-  X
+  Target
 } from 'lucide-react';
 import { useLanguage } from './LanguageContext';
 import { useAlerts } from './shared/AlertContext';
