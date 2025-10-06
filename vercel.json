@@ -1,5 +1,4 @@
 {
-  "name": "dpres-prototype",
   "buildCommand": "npm run build",
   "outputDirectory": "build",
   "installCommand": "npm install",
@@ -45,10 +44,5 @@
         }
       ]
     }
-  ],
-  "functions": {
-    "app/api/**/*.ts": {
-      "runtime": "nodejs18.x"
-    }
-  }
+  ]
 }
