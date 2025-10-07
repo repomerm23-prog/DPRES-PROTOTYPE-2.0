@@ -3,20 +3,19 @@ import {
   Shield, 
   BarChart3,
   Building2,
-  Bell,
   FileText,
   Settings,
   LogOut,
   Menu,
   Activity,
   Award,
-  MessageSquare,
-  Sun,
-  Moon
+  AlertTriangle,
+  Users,
+  Radio
 } from 'lucide-react';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
+import { Tabs, TabsContent } from './ui/tabs';
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
 import { schools, colleges, allInstitutions } from './shared/institutionsData';
 import { useAlerts } from './shared/AlertContext';
@@ -40,33 +39,23 @@ interface AdminDashboardProps {
 export function AdminDashboard({ adminData, onLogout }: AdminDashboardProps) {
   const [activeTab, setActiveTab] = useState('overview');
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [currentTime, setCurrentTime] = useState(new Date());
 
-  // Initialize dark mode from localStorage or system preference
+  // Always use dark mode for admin portal
   useEffect(() => {
-    const savedTheme = localStorage.getItem('admin-theme');
-    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const shouldBeDark = savedTheme ? savedTheme === 'dark' : systemDark;
-    
-    setIsDarkMode(shouldBeDark);
-    if (shouldBeDark) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    document.documentElement.classList.add('dark');
+    return () => {
+      // Keep dark mode when unmounting
+    };
   }, []);
 
-  const toggleDarkMode = () => {
-    const newDarkMode = !isDarkMode;
-    setIsDarkMode(newDarkMode);
-    localStorage.setItem('admin-theme', newDarkMode ? 'dark' : 'light');
-    
-    if (newDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  };
+  // Update time every second
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   // Navigation handler for quick actions
   const handleNavigation = (section: string) => {
@@ -95,96 +84,176 @@ export function AdminDashboard({ adminData, onLogout }: AdminDashboardProps) {
     activeSosAlerts: activeAlerts.length
   };
 
+  const formatTime = (date: Date) => {
+    return date.toLocaleTimeString('en-IN', { 
+      hour: '2-digit', 
+      minute: '2-digit', 
+      second: '2-digit',
+      hour12: true 
+    });
+  };
+
+  const formatDate = (date: Date) => {
+    return date.toLocaleDateString('en-IN', { 
+      weekday: 'long',
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+  };
+
   // Navigation component for both mobile and desktop
   const NavigationContent = ({ mobile = false }) => (
-    <Tabs value={activeTab} onValueChange={setActiveTab} orientation="vertical" className="w-full">
-      <TabsList className={`grid w-full ${mobile ? 'grid-cols-1' : 'grid-rows-7'} h-auto gap-1 bg-gray-50 dark:bg-gray-700/50 p-1`}>
-        <TabsTrigger 
-          value="overview" 
-          className="justify-start text-gray-600 dark:text-gray-300 data-[state=active]:bg-red-100 dark:data-[state=active]:bg-red-900/30 data-[state=active]:text-red-700 dark:data-[state=active]:text-red-300 hover:bg-gray-100 dark:hover:bg-gray-600" 
-          onClick={() => mobile && setSidebarOpen(false)}
-        >
-          <BarChart3 className="h-4 w-4 mr-2" />
-          Dashboard
-        </TabsTrigger>
-        <TabsTrigger 
-          value="institutions" 
-          className="justify-start text-gray-600 dark:text-gray-300 data-[state=active]:bg-red-100 dark:data-[state=active]:bg-red-900/30 data-[state=active]:text-red-700 dark:data-[state=active]:text-red-300 hover:bg-gray-100 dark:hover:bg-gray-600" 
-          onClick={() => mobile && setSidebarOpen(false)}
-        >
-          <Building2 className="h-4 w-4 mr-2" />
-          Institutions
-        </TabsTrigger>
-        <TabsTrigger 
-          value="certificates" 
-          className="justify-start text-gray-600 dark:text-gray-300 data-[state=active]:bg-red-100 dark:data-[state=active]:bg-red-900/30 data-[state=active]:text-red-700 dark:data-[state=active]:text-red-300 hover:bg-gray-100 dark:hover:bg-gray-600" 
-          onClick={() => mobile && setSidebarOpen(false)}
-        >
-          <Award className="h-4 w-4 mr-2" />
-          Certificates
-        </TabsTrigger>
-        <TabsTrigger 
-          value="communications" 
-          className="justify-start text-gray-600 dark:text-gray-300 data-[state=active]:bg-red-100 dark:data-[state=active]:bg-red-900/30 data-[state=active]:text-red-700 dark:data-[state=active]:text-red-300 hover:bg-gray-100 dark:hover:bg-gray-600" 
-          onClick={() => mobile && setSidebarOpen(false)}
-        >
-          <MessageSquare className="h-4 w-4 mr-2" />
-          SMS/IVR
-        </TabsTrigger>
-        <TabsTrigger 
-          value="alerts" 
-          className="justify-start text-gray-600 dark:text-gray-300 data-[state=active]:bg-red-100 dark:data-[state=active]:bg-red-900/30 data-[state=active]:text-red-700 dark:data-[state=active]:text-red-300 hover:bg-gray-100 dark:hover:bg-gray-600" 
-          onClick={() => mobile && setSidebarOpen(false)}
-        >
-          <Bell className="h-4 w-4 mr-2" />
-          Emergency Alerts  
-        </TabsTrigger>
-        <TabsTrigger 
-          value="reports" 
-          className="justify-start text-gray-600 dark:text-gray-300 data-[state=active]:bg-red-100 dark:data-[state=active]:bg-red-900/30 data-[state=active]:text-red-700 dark:data-[state=active]:text-red-300 hover:bg-gray-100 dark:hover:bg-gray-600" 
-          onClick={() => mobile && setSidebarOpen(false)}
-        >
-          <FileText className="h-4 w-4 mr-2" />
-          Reports & Analytics
-        </TabsTrigger>
-        <TabsTrigger 
-          value="settings" 
-          className="justify-start text-gray-600 dark:text-gray-300 data-[state=active]:bg-red-100 dark:data-[state=active]:bg-red-900/30 data-[state=active]:text-red-700 dark:data-[state=active]:text-red-300 hover:bg-gray-100 dark:hover:bg-gray-600" 
-          onClick={() => mobile && setSidebarOpen(false)}
-        >
-          <Settings className="h-4 w-4 mr-2" />
-          Settings
-        </TabsTrigger>
-      </TabsList>
-    </Tabs>
+    <div className="space-y-3">
+      <button
+        onClick={() => {
+          setActiveTab('overview');
+          mobile && setSidebarOpen(false);
+        }}
+        className={`w-full flex items-center justify-start px-5 py-4 rounded-lg transition-all duration-200 group ${
+          activeTab === 'overview'
+            ? 'bg-gradient-to-r from-red-600 to-orange-600 text-white shadow-lg shadow-red-500/20'
+            : 'text-slate-300 hover:bg-slate-800/50 hover:text-white'
+        }`}
+        style={{ fontSize: '15px' }}
+      >
+        <BarChart3 className="h-6 w-6 mr-4 flex-shrink-0" />
+        <span className="font-semibold">Command Center</span>
+        {activeTab === 'overview' && (
+          <div className="ml-10 w-2 h-2 bg-white rounded-full animate-pulse flex-shrink-0" />
+        )}
+      </button>
+
+      <button
+        onClick={() => {
+          setActiveTab('institutions');
+          mobile && setSidebarOpen(false);
+        }}
+        className={`w-full flex items-center justify-start px-5 py-4 rounded-lg transition-all duration-200 ${
+          activeTab === 'institutions'
+            ? 'bg-gradient-to-r from-red-600 to-orange-600 text-white shadow-lg shadow-red-500/20'
+            : 'text-slate-300 hover:bg-slate-800/50 hover:text-white'
+        }`}
+        style={{ fontSize: '15px' }}
+      >
+        <Building2 className="h-6 w-6 mr-4 flex-shrink-0" />
+        <span className="font-semibold">Institutions</span>
+        <Badge className="ml-auto bg-blue-500/20 text-blue-300 border-blue-500/30 text-sm px-3 py-1 flex-shrink-0">
+          {allInstitutions.length}
+        </Badge>
+      </button>
+
+      <button
+        onClick={() => {
+          setActiveTab('alerts');
+          mobile && setSidebarOpen(false);
+        }}
+        className={`w-full flex items-center justify-start px-5 py-4 rounded-lg transition-all duration-200 ${
+          activeTab === 'alerts'
+            ? 'bg-gradient-to-r from-red-600 to-orange-600 text-white shadow-lg shadow-red-500/20'
+            : 'text-slate-300 hover:bg-slate-800/50 hover:text-white'
+        }`}
+        style={{ fontSize: '15px' }}
+      >
+        <AlertTriangle className="h-6 w-6 mr-4 flex-shrink-0" />
+        <span className="font-semibold">Emergency Alerts</span>
+        {activeAlerts.length > 0 && (
+          <Badge className="ml-auto bg-red-500 text-white border-0 text-xs px-2 py-0.5 animate-pulse flex-shrink-0">
+            {activeAlerts.length}
+          </Badge>
+        )}
+      </button>
+
+      <button
+        onClick={() => {
+          setActiveTab('communications');
+          mobile && setSidebarOpen(false);
+        }}
+        className={`w-full flex items-center justify-start px-5 py-4 rounded-lg transition-all duration-200 ${
+          activeTab === 'communications'
+            ? 'bg-gradient-to-r from-red-600 to-orange-600 text-white shadow-lg shadow-red-500/20'
+            : 'text-slate-300 hover:bg-slate-800/50 hover:text-white'
+        }`}
+        style={{ fontSize: '15px' }}
+      >
+        <Radio className="h-6 w-6 mr-4 flex-shrink-0" />
+        <span className="font-semibold">SMS/IVR</span>
+      </button>
+
+      <button
+        onClick={() => {
+          setActiveTab('certificates');
+          mobile && setSidebarOpen(false);
+        }}
+        className={`w-full flex items-center justify-start px-5 py-4 rounded-lg transition-all duration-200 ${
+          activeTab === 'certificates'
+            ? 'bg-gradient-to-r from-red-600 to-orange-600 text-white shadow-lg shadow-red-500/20'
+            : 'text-slate-300 hover:bg-slate-800/50 hover:text-white'
+        }`}
+        style={{ fontSize: '15px' }}
+      >
+        <Award className="h-6 w-6 mr-4 flex-shrink-0" />
+        <span className="font-semibold">Certificates</span>
+      </button>
+
+      <button
+        onClick={() => {
+          setActiveTab('reports');
+          mobile && setSidebarOpen(false);
+        }}
+        className={`w-full flex items-center justify-start px-5 py-4 rounded-lg transition-all duration-200 ${
+          activeTab === 'reports'
+            ? 'bg-gradient-to-r from-red-600 to-orange-600 text-white shadow-lg shadow-red-500/20'
+            : 'text-slate-300 hover:bg-slate-800/50 hover:text-white'
+        }`}
+        style={{ fontSize: '15px' }}
+      >
+        <FileText className="h-6 w-6 mr-4 flex-shrink-0" />
+        <span className="font-semibold">Analytics</span>
+      </button>
+
+      <button
+        onClick={() => {
+          setActiveTab('settings');
+          mobile && setSidebarOpen(false);
+        }}
+        className={`w-full flex items-center justify-start px-5 py-4 rounded-lg transition-all duration-200 ${
+          activeTab === 'settings'
+            ? 'bg-gradient-to-r from-red-600 to-orange-600 text-white shadow-lg shadow-red-500/20'
+            : 'text-slate-300 hover:bg-slate-800/50 hover:text-white'
+        }`}
+        style={{ fontSize: '15px' }}
+      >
+        <Settings className="h-6 w-6 mr-4 flex-shrink-0" />
+        <span className="font-semibold">Settings</span>
+      </button>
+    </div>
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
-      {/* Header */}
-      <div className="border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 sticky top-0 z-40 shadow-sm">
-        <div className="px-4 lg:px-6 py-3 lg:py-4">
+    <div className="min-h-screen bg-slate-950">
+      {/* Sophisticated Header */}
+      <div className="border-b border-slate-800 bg-gradient-to-r from-slate-900 via-slate-900 to-slate-900 sticky top-0 z-40 backdrop-blur-xl bg-opacity-90">
+        <div className="px-4 lg:px-6 py-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3 lg:space-x-4">
+            <div className="flex items-center space-x-4">
               {/* Mobile menu trigger */}
               <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
                 <SheetTrigger asChild>
-                  <Button variant="outline" size="sm" className="lg:hidden border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                  <Button variant="outline" size="sm" className="lg:hidden border-slate-700 bg-slate-800/50 text-slate-300 hover:bg-slate-700 hover:text-white">
                     <Menu className="h-4 w-4" />
                   </Button>
                 </SheetTrigger>
-                <SheetContent side="left" className="w-72 p-0 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
-                  <div className="p-4">
+                <SheetContent side="left" className="w-72 p-0 bg-slate-900 border-slate-800">
+                  <div className="p-5">
                     <div className="mb-6">
                       <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 bg-gradient-to-br from-red-600 to-red-700 rounded-lg flex items-center justify-center shadow-lg">
-                          <Shield className="h-5 w-5 text-white" />
+                        <div className="w-10 h-10 bg-gradient-to-br from-red-600 to-orange-600 rounded-lg flex items-center justify-center shadow-lg shadow-red-500/20">
+                          <Shield className="h-6 w-6 text-white" />
                         </div>
                         <div>
-                          <h2 className="font-bold text-gray-900 dark:text-gray-100">SDMA Admin</h2>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">
-                            {adminData?.displayName ? `Welcome, ${adminData.displayName}` : 'Admin Portal'}
-                          </p>
+                          <h2 className="font-bold text-white text-lg">SDMA Portal</h2>
+                          <p className="text-xs text-slate-400">State Disaster Management</p>
                         </div>
                       </div>
                     </div>
@@ -193,47 +262,52 @@ export function AdminDashboard({ adminData, onLogout }: AdminDashboardProps) {
                 </SheetContent>
               </Sheet>
 
-              <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-br from-red-600 to-red-700 rounded-lg flex items-center justify-center shadow-lg">
-                <Shield className="h-5 w-5 lg:h-6 lg:w-6 text-white" />
-              </div>
-              <div className="hidden lg:block">
-                <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">SDMA Admin Portal</h1>
-                <p className="text-sm text-gray-600 dark:text-gray-400">State Disaster Management Authority</p>
+              {/* Logo and branding */}
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-red-600 to-orange-600 rounded-lg flex items-center justify-center shadow-lg shadow-red-500/20">
+                  <Shield className="h-6 w-6 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-lg font-bold text-white tracking-tight flex items-center">
+                    SDMA Command Center
+                    <span className="ml-2 px-2 py-0.5 bg-red-600/20 border border-red-500/30 rounded text-xs text-red-400 font-normal">
+                      LIVE
+                    </span>
+                  </h1>
+                  <p className="text-xs text-slate-400">State Disaster Management Authority</p>
+                </div>
               </div>
             </div>
             
             <div className="flex items-center space-x-3">
+              {/* Time display */}
+              <div className="hidden md:flex flex-col items-end text-xs">
+                <div className="text-slate-400">{formatDate(currentTime)}</div>
+                <div className="text-white font-mono font-medium">{formatTime(currentTime)}</div>
+              </div>
+
+              {/* Admin info */}
               {adminData?.displayName && (
-                <div className="hidden md:flex items-center space-x-3 text-sm text-gray-600 dark:text-gray-300">
-                  <div className="flex items-center">
-                    <span className="truncate max-w-32 font-medium">{adminData.displayName}</span>
-                  </div>
+                <div className="hidden lg:flex items-center space-x-2 px-3 py-1.5 bg-slate-800/50 border border-slate-700 rounded-lg">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                  <span className="text-sm text-slate-300">{adminData.displayName}</span>
                 </div>
               )}
-              <Badge className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300 border border-green-200 dark:border-green-700">
+
+              {/* Status badge */}
+              <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
                 <Activity className="h-3 w-3 mr-1" />
-                <span className="hidden sm:inline">Online</span>
-                <span className="sm:hidden">{adminData?.displayName || 'Online'}</span>
+                Online
               </Badge>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={toggleDarkMode}
-                className="border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-500"
-              >
-                {isDarkMode ? (
-                  <Sun className="h-4 w-4" />
-                ) : (
-                  <Moon className="h-4 w-4" />
-                )}
-              </Button>
+
+              {/* Logout button */}
               <Button 
                 variant="outline" 
                 size="sm" 
                 onClick={onLogout}
-                className="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 border-red-200 dark:border-red-800 hover:border-red-300 dark:hover:border-red-700 hover:bg-red-50 dark:hover:bg-red-900/20"
+                className="text-red-400 hover:text-red-300 border-red-900 hover:border-red-700 hover:bg-red-950/50"
               >
-                <LogOut className="h-4 w-4 lg:mr-1" />
+                <LogOut className="h-4 w-4 lg:mr-1.5" />
                 <span className="hidden lg:inline">Logout</span>
               </Button>
             </div>
@@ -243,14 +317,39 @@ export function AdminDashboard({ adminData, onLogout }: AdminDashboardProps) {
 
       <div className="flex">
         {/* Desktop Sidebar */}
-        <div className="hidden lg:block w-64 border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 min-h-screen sticky top-[73px]">
-          <div className="p-4">
+        <div className="hidden lg:block w-[480px] border-r border-slate-800 bg-slate-900 min-h-screen sticky top-[73px]">
+          <div className="p-6">
+            {/* Quick stats in sidebar */}
+            <div className="mb-8 space-y-4">
+              <div className="bg-gradient-to-br from-blue-600/20 to-blue-700/10 border-2 border-blue-600/30 rounded-xl p-5">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-sm text-blue-300 mb-2 font-medium">Total Students</div>
+                    <div className="text-3xl font-bold text-white">{overviewStats.totalStudents.toLocaleString()}</div>
+                  </div>
+                  <Users className="h-12 w-12 text-blue-400 opacity-50" />
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-br from-orange-600/20 to-orange-700/10 border-2 border-orange-600/30 rounded-xl p-5">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-sm text-orange-300 mb-2 font-medium">Institutions</div>
+                    <div className="text-3xl font-bold text-white">{allInstitutions.length}</div>
+                  </div>
+                  <Building2 className="h-12 w-12 text-orange-400 opacity-50" />
+                </div>
+              </div>
+            </div>
+
+            <div className="h-px bg-slate-800 mb-6" />
+
             <NavigationContent />
           </div>
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 p-4 lg:p-6 max-w-full overflow-hidden bg-gray-50 dark:bg-gray-900">
+        <div className="flex-1 p-4 lg:p-6 max-w-full overflow-hidden bg-slate-950">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsContent value="overview">
               <DashboardOverview overviewStats={overviewStats} onNavigation={handleNavigation} />

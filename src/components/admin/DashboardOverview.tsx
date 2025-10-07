@@ -34,7 +34,7 @@ export function DashboardOverview({ overviewStats, onNavigation }: DashboardOver
   return (
     <div className="space-y-4 lg:space-y-6">
       {/* Quick Stats Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 lg:gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
         <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
           <CardContent className="p-3 lg:p-4">
             <div className="flex items-center justify-between">
@@ -55,18 +55,6 @@ export function DashboardOverview({ overviewStats, onNavigation }: DashboardOver
                 <p className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-gray-100">{overviewStats.totalColleges}</p>
               </div>
               <Building2 className="h-6 w-6 lg:h-8 lg:w-8 text-green-500 dark:text-green-400" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
-          <CardContent className="p-3 lg:p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs lg:text-sm text-gray-600 dark:text-gray-400">Students</p>
-                <p className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-gray-100">{overviewStats.totalStudents.toLocaleString()}</p>
-              </div>
-              <Users className="h-6 w-6 lg:h-8 lg:w-8 text-purple-500 dark:text-purple-400" />
             </div>
           </CardContent>
         </Card>
