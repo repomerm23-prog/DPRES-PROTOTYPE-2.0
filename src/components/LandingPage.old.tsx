@@ -1,47 +1,112 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from './ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { ImageWithFallback } from './designAssets/ImageWithFallback';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { 
   Shield, 
-  LayoutDashboard, 
-  BookOpen, 
-  Headphones, 
-  AlertTriangle
+  ChevronDown,
+  Moon,
+  Sun,
+  Send,
+  X,
+  Eye,
+  EyeOff,
+  Mail,
+  Lock,
+  HelpCircle,
+  CheckCircle
 } from 'lucide-react';
-import { useLanguage } from './LanguageContext';
-import { RecentIncidents } from './RecentIncidents';
-import { FAQSection } from './FAQSection';
-
-interface UserData {
-  schoolName: string;
-  schoolCode: string;
-  studentName: string;
-  age: string;
-}
 
 interface LandingPageProps {
-  userData: UserData | null;
+  userData?: null;
 }
 
-export function LandingPage({ userData }: LandingPageProps) {
-  const { t } = useLanguage();
+export function LandingPage({}: LandingPageProps) {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+  const [showQueryModal, setShowQueryModal] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   
-  // Generate dynamic greeting messages
-  const greetings = [
-    `Keep going, ${userData?.studentName || 'Student'}! You're almost there 🚀`,
-    `Stay safe, stay smart ${userData?.studentName || 'Student'} 🌍`,
-    `Ready to level up your safety skills, ${userData?.studentName || 'Student'}? 💪`,
-    `Building a safer tomorrow, one step at a time! ${userData?.studentName ? 'Welcome back, ' + userData.studentName : 'Welcome'} ✨`,
-    `Your safety journey continues, ${userData?.studentName || 'Student'}! 🛡️`
+  // Form states
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [queryName, setQueryName] = useState('');
+  const [queryEmail, setQueryEmail] = useState('');
+  const [queryMessage, setQueryMessage] = useState('');
+
+  const faqItems = [
+    {
+      question: "What is DPRES?",
+      answer: "DPRES means Disaster Preparedness and Response Education System. It helps students learn what to do before, during, and after a disaster. The main goal is to make every student confident and ready to face any emergency safely."
+    },
+    {
+      question: "What can I learn from DPRES?",
+      answer: "You'll learn how to stay safe during disasters like floods, fires, and earthquakes through short, interactive lessons. The training modules include videos, quizzes, and games."
+    },
+    {
+      question: "How can I start my training?",
+      answer: "After logging in, go to \"My Courses\" or \"Training Modules.\" Click any lesson to start — your progress saves automatically."
+    },
+    {
+      question: "Will I get a certificate after finishing my training?",
+      answer: "Yes! After completing all modules and quizzes, you can download your certificate of completion from the \"Certificates\" section."
+    },
+    {
+      question: "What should I do if I can't log in or forgot my password?",
+      answer: "Click \"Forgot Password\" on the login page. Enter your registered email or ID to reset it."
+    },
+    {
+      question: "Who can help me if I face any problem?",
+      answer: "Go to the \"Help & Support\" section or contact your DPRES coordinator."
+    }
   ];
 
-  const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
+  const toggleFaq = (index: number) => {
+    setOpenFaqIndex(openFaqIndex === index ? null : index);
+  };
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle login logic here
+    console.log('Login attempt:', { loginEmail, loginPassword });
+  };
+
+  const handleQuerySubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle query submission
+    console.log('Query submitted:', { queryName, queryEmail, queryMessage });
+    setShowSuccess(true);
+    setTimeout(() => {
+      setShowSuccess(false);
+      setShowQueryModal(false);
+      setQueryName('');
+      setQueryEmail('');
+      setQueryMessage('');
+    }, 3000);
+  };
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
 
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-orange-500 via-indigo-600 to-indigo-800 text-white overflow-hidden">
+    <div className={`min-h-screen transition-colors duration-300 ${isDarkMode ? 'dark bg-gray-900' : 'bg-gray-50'}`}>
+      {/* Dark/Light Mode Toggle */}
+      <button
+        onClick={toggleTheme}
+        className="fixed top-6 right-6 z-50 p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700"
+        aria-label="Toggle theme"
+      >
+        {isDarkMode ? (
+          <Sun className="h-5 w-5 text-yellow-500" />
+        ) : (
+          <Moon className="h-5 w-5 text-gray-700" />
+        )}
+      </button>
+
+      {/* Header Section */}
+      <header className="relative bg-gradient-to-br from-indigo-600 via-blue-600 to-indigo-700 text-white overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-24">
           {/* Indian-inspired decorative elements */}
@@ -238,9 +303,6 @@ export function LandingPage({ userData }: LandingPageProps) {
 
       {/* Disaster Case Studies Section */}
       <RecentIncidents />
-
-      {/* FAQ Section */}
-      <FAQSection />
 
       {/* CTA Section */}
       <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-r from-blue-600 to-blue-700 text-white">
