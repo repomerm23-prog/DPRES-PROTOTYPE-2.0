@@ -22,6 +22,7 @@ This is a prototype version of DPRES, created to demonstrate the envisioned look
 - User authentication and role-based access
 - Communication tools for alerts and notifications
 <img width="1920" height="1080" alt="nbv " src="https://github.com/user-attachments/assets/b8e8316d-29dd-4598-a5d8-83d57a2c3a1c" />
+
 ## How to Use
 
 - Clone the repository
