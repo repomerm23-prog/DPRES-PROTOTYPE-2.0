@@ -9,6 +9,8 @@ This repository contains the prototype for the Disaster Preparedness Platform (D
 
 DPRES is designed to enhance disaster preparedness and response through a comprehensive platform that integrates various modules such as emergency alerts, training, incident reporting, and resource management. The platform aims to provide real-time information, communication tools, and analytics to support institutions, emergency responders, and communities in disaster-prone areas.
 
+<!-- Last updated: October 7, 2025 - Admin Dashboard UI improvements -->
+
 ## Prototype Purpose
 
 This is a prototype version of DPRES, created to demonstrate the envisioned look, feel, and core functionalities of the platform. It serves as a proof of concept to showcase the design, user interface, and basic interactions.
