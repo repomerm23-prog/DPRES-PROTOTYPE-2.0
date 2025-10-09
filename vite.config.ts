@@ -3,7 +3,7 @@
   import react from '@vitejs/plugin-react-swc';
   import path from 'path';
   import { visualizer } from 'rollup-plugin-visualizer';
-  import viteCompression from 'vite-plugin-compression';
+  import { compression } from 'vite-plugin-compression2';
   import { VitePWA } from 'vite-plugin-pwa';
 
   export default defineConfig({
@@ -53,7 +53,8 @@
           ]
         },
         workbox: {
-          globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+          globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
+          globIgnores: ['**/node_modules/**/*', '**/stats.html'],
           runtimeCaching: [
             {
               urlPattern: /^https:\/\/api\.*/i,
@@ -84,19 +85,19 @@
         }
       }),
       // Gzip compression
-      viteCompression({
+      compression({
         algorithm: 'gzip',
-        ext: '.gz',
+        exclude: [/\.(br)$/, /\.(gz)$/],
       }),
       // Brotli compression (better than gzip)
-      viteCompression({
+      compression({
         algorithm: 'brotliCompress',
-        ext: '.br',
+        exclude: [/\.(br)$/, /\.(gz)$/],
       }),
       // Bundle analyzer (only in build mode)
       visualizer({
         open: false,
-        filename: 'dist/stats.html',
+        filename: 'build/stats.html',
         gzipSize: true,
         brotliSize: true,
       }),

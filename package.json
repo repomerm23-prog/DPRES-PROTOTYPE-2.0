@@ -2,6 +2,12 @@
       "name": "disaster-preparedness-platform-design",
       "version": "0.1.0",
       "private": true,
+      "overrides": {
+            "sourcemap-codec": "npm:@jridgewell/sourcemap-codec@^1.5.0",
+            "glob": "^10.4.0",
+            "inflight": "npm:lru-cache@^10.4.0",
+            "source-map": "^0.7.6"
+      },
       "dependencies": {
             "@radix-ui/react-accordion": "^1.2.3",
             "@radix-ui/react-alert-dialog": "^1.1.6",
@@ -49,7 +55,7 @@
             "sonner": "^2.0.3",
             "tailwind-merge": "*",
             "vaul": "^1.1.2",
-            "vite-plugin-pwa": "^1.0.3",
+            "vite-plugin-pwa": "^0.21.1",
             "web-vitals": "^5.1.0",
             "workbox-window": "^7.3.0",
             "zod": "^4.1.11"
@@ -65,7 +71,7 @@
             "rollup-plugin-visualizer": "^6.0.4",
             "terser": "^5.44.0",
             "vite": "^6.3.6",
-            "vite-plugin-compression": "^0.5.1",
+            "vite-plugin-compression2": "^1.3.3",
             "vitest": "^3.2.4"
       },
       "optionalDependencies": {
