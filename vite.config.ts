@@ -53,6 +53,8 @@
           ]
         },
         workbox: {
+          globPatterns: [],
+          navigateFallback: null,
           runtimeCaching: [
             {
               urlPattern: /^https:\/\/api\.*/i,
