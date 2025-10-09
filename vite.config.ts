@@ -53,8 +53,6 @@
           ]
         },
         workbox: {
-          globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
-          globIgnores: ['**/node_modules/**/*', '**/stats.html'],
           runtimeCaching: [
             {
               urlPattern: /^https:\/\/api\.*/i,
