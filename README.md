@@ -89,10 +89,27 @@ For queries, collaboration, or feedback, reach out to the development team.
 - The design and features are subject to change based on further development and user input.
 - All references to third-party design tools have been replaced with internal design assets and terminology.
 
-## Contact
+## 📜 License
 
-For more information or to provide feedback, please contact the development team.
+**MIT License**
+
+Copyright © 2025 Team Oryza
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+**THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.**
+
+See the [LICENSE](LICENSE) file for full details.
 
 ---
 
-This prototype reflects our initial vision for DPRES and how we imagine it would look and function in a real-world setting.
+## 📬 Contact
+
+For more information, feedback, or collaboration opportunities:  
+📧 **Email:** repomerm23@gmail.com
+
+---
+
+*This prototype reflects our initial vision for DPRES and how we imagine it would look and function in a real-world setting.*
