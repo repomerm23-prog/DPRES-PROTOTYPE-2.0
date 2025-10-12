@@ -30,7 +30,15 @@ import {
 } from 'lucide-react';
 import { useLanguage } from './LanguageContext';
 import { useAlerts } from './shared/AlertContext';
-import { getInstitutionById } from './shared/institutionsData';
+import institutionsData from './shared/institutionsData';
+// Helper to find institution by code
+function getInstitutionById(code: string) {
+  const allInstitutions = [
+    ...institutionsData.schools,
+    ...institutionsData.colleges
+  ];
+  return allInstitutions.find(inst => inst.code === code);
+}
 
 interface DashboardProps {
   userData?: {
@@ -113,7 +121,7 @@ export function Dashboard({ userData }: DashboardProps) {
         location: 'Student Dashboard',
         severity: 'high',
         description: `Emergency SOS alert triggered by student ${userData.studentName}`,
-        coordinates: institution.coordinates
+  // coordinates: institution.coordinates
       });
     }
     
@@ -149,7 +157,7 @@ export function Dashboard({ userData }: DashboardProps) {
         location: incidentForm.location,
         severity: incidentForm.type === 'fire' || incidentForm.type === 'medical' ? 'high' : 'medium',
         description: incidentForm.description,
-        coordinates: institution.coordinates
+  // coordinates: institution.coordinates
       });
     }
     

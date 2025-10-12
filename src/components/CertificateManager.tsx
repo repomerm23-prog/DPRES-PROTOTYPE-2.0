@@ -12,7 +12,7 @@ import {
   Download, 
   Eye, 
   Search, 
-  RefreshCw, 
+  RefreshCw,
   CheckCircle,
   Clock,
   XCircle,
@@ -20,27 +20,48 @@ import {
   FileCheck,
   QrCode,
   Printer,
-  Mail
-} from 'lucide-react';
-import { allInstitutions, ComplianceCertificate } from './shared/institutionsData';
+  Mail,
+  
+} from 'lucide-react'; // Ensure lucide-react is installed in your project
+import institutionsData from './shared/institutionsData';
 import { useCommunication } from './shared/CommunicationContext';
 
 export function CertificateManager() {
+
   const { certificates } = useCommunication();
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCertificate, setSelectedCertificate] = useState<ComplianceCertificate | null>(null);
+  const [selectedCertificate, setSelectedCertificate] = useState<any | null>(null);
   const [filterStatus, setFilterStatus] = useState<'all' | 'active' | 'expired' | 'pending'>('all');
 
+
+  // Flatten institutions (schools + colleges)
+  const allInstitutions = [
+    ...institutionsData.schools,
+    ...institutionsData.colleges
+  ];
+
   // Get institutions with certificate data
-  const institutionsWithCertificates = allInstitutions.map(inst => {
-    const certificate = certificates.find(cert => cert.institutionId === inst.id);
+  const institutionsWithCertificates = allInstitutions.map((inst: any) => {
+    const certificate = certificates.find((cert: any) => cert.institutionId === inst.id);
     return {
       ...inst,
-      certificate
+      compliance: certificate ? {
+        certificateStatus: certificate.status,
+        complianceScore: certificate.complianceScore,
+        certificateIssueDate: certificate.issueDate,
+        certificateExpiryDate: certificate.expiryDate,
+        certificateId: certificate.id,
+      } : {
+        certificateStatus: 'not-eligible',
+        complianceScore: 0,
+        certificateIssueDate: null,
+        certificateExpiryDate: null,
+        certificateId: null,
+      }
     };
   });
 
-  const filteredInstitutions = institutionsWithCertificates.filter(inst => {
+  const filteredInstitutions = institutionsWithCertificates.filter((inst: any) => {
     const matchesSearch = inst.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          inst.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          inst.district.toLowerCase().includes(searchTerm.toLowerCase());
@@ -96,10 +117,10 @@ export function CertificateManager() {
   // Statistics
   const stats = {
     total: allInstitutions.length,
-    issued: allInstitutions.filter(inst => inst.compliance.certificateStatus === 'issued').length,
-    pending: allInstitutions.filter(inst => inst.compliance.certificateStatus === 'pending').length,
-    expired: allInstitutions.filter(inst => inst.compliance.certificateStatus === 'expired').length,
-    notEligible: allInstitutions.filter(inst => inst.compliance.certificateStatus === 'not-eligible').length
+    issued: institutionsWithCertificates.filter((inst: any) => inst.compliance.certificateStatus === 'issued').length,
+    pending: institutionsWithCertificates.filter((inst: any) => inst.compliance.certificateStatus === 'pending').length,
+    expired: institutionsWithCertificates.filter((inst: any) => inst.compliance.certificateStatus === 'expired').length,
+    notEligible: institutionsWithCertificates.filter((inst: any) => inst.compliance.certificateStatus === 'not-eligible').length
   };
 
   return (
@@ -241,7 +262,7 @@ export function CertificateManager() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredInstitutions.map((institution) => (
+                {filteredInstitutions.map((institution: any) => (
                   <TableRow key={institution.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                     <TableCell>
                       <div>
