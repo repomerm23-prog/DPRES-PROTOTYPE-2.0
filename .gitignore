@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+
+# Build output
+build/
+dist/
+coverage/
+
+# Deployment
+.vercel
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Development build output
+dev-dist/
+
+# Local reports and documentation (for reference only, not committed)
+*_REPORT.md
+*_SUMMARY.md
+*_ANALYSIS.md
+*_FIX.md
+OPTIMIZATION_*.md
+CI_DEPLOYMENT_*.md
+SOURCE_CONTROL_*.md
