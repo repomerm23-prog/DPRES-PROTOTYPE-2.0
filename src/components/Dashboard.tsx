@@ -30,12 +30,12 @@ import {
 } from 'lucide-react';
 import { useLanguage } from './LanguageContext';
 import { useAlerts } from './shared/AlertContext';
-import institutionsData from './shared/institutionsData';
+import { schools, colleges } from './shared/institutionsData';
 // Helper to find institution by code
 function getInstitutionById(code: string) {
   const allInstitutions = [
-    ...institutionsData.schools,
-    ...institutionsData.colleges
+    ...schools,
+    ...colleges
   ];
   return allInstitutions.find(inst => inst.code === code);
 }

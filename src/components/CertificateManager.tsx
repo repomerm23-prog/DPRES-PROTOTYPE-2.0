@@ -23,7 +23,7 @@ import {
   Mail,
   
 } from 'lucide-react'; // Ensure lucide-react is installed in your project
-import institutionsData from './shared/institutionsData';
+import { schools, colleges } from './shared/institutionsData';
 import { useCommunication } from './shared/CommunicationContext';
 
 export function CertificateManager() {
@@ -36,8 +36,8 @@ export function CertificateManager() {
 
   // Flatten institutions (schools + colleges)
   const allInstitutions = [
-    ...institutionsData.schools,
-    ...institutionsData.colleges
+    ...schools,
+    ...colleges
   ];
 
   // Get institutions with certificate data
