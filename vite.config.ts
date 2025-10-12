@@ -110,7 +110,7 @@
     },
     build: {
       target: 'esnext',
-      outDir: 'build',
+      outDir: 'dist',
       chunkSizeWarningLimit: 1000,
       // Manual chunk splitting for better caching
       rollupOptions: {
